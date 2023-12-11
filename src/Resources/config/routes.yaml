@@ -1,0 +1,6 @@
+# monsieurbiz_advanced_promotion_admin:
+#     resource: 'routes/admin.yaml'
+#     prefix: '/%sylius_admin.path_name%/'
+
+# monsieurbiz_advanced_promotion_shop:
+#     resource: "routes/shop.yaml"

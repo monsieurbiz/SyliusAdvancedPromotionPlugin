@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+
+    MonsieurBiz\SyliusAdvancedPromotionPlugin\:
+        resource: '../../*'
+        exclude: '../../{Entity,Migrations}'
+
+    MonsieurBiz\SyliusAdvancedPromotionPlugin\Controller\:
+        resource: '../../Controller'
+        tags: [ 'controller.service_arguments' ]
