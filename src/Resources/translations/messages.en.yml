@@ -1,0 +1,4 @@
+monsieurbiz_sylius_advanced_promotion:
+    promotion: 
+        applied_after_tax: Applied after tax
+        advanced_promotion_configuration: Advanced promotion configuration
