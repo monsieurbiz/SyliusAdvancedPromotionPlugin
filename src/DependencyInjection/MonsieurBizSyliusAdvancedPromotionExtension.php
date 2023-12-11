@@ -18,6 +18,9 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
+/**
+ * @SuppressWarnings(PHPMD.LongClassName)
+ */
 final class MonsieurBizSyliusAdvancedPromotionExtension extends Extension implements PrependExtensionInterface
 {
     use PrependDoctrineMigrationsTrait;
