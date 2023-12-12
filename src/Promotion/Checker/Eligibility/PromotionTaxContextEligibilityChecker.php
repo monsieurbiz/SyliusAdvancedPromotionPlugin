@@ -32,6 +32,10 @@ final class PromotionTaxContextEligibilityChecker implements PromotionEligibilit
         PromotionSubjectInterface $promotionSubject,
         PromotionInterface $promotion
     ): bool {
+        if (!$this->promotionContext->isOrderProcessor()) {
+            return true;
+        }
+
         /** @var AfterTaxAwareInterface $promotion */
         Assert::isInstanceOf($promotion, AfterTaxAwareInterface::class);
 
