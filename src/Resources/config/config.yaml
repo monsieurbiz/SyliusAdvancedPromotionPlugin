@@ -1,1 +1,4 @@
-# imports:
+imports:
+    - { resource: 'fixtures/*.yaml' }
+    - { resource: 'grids/*.yaml' }
+    - { resource: 'ui/*.yaml' }

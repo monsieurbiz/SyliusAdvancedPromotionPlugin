@@ -1,0 +1,9 @@
+sylius_fixtures:
+    suites:
+        default:
+            fixtures:
+                monsieurbiz_advanced_promotion:
+                    options:
+                        promotion_advanced_configuration:
+                            -   code: 'new_year'
+                                after_tax: true

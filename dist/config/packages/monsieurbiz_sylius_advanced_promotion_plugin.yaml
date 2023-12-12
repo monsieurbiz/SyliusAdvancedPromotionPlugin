@@ -1,0 +1,2 @@
+imports:
+    resource: '@MonsieurBizSyliusAdvancedPromotionPlugin/Resources/config/config.yaml'

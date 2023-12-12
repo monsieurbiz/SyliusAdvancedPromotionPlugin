@@ -11,3 +11,22 @@ services:
     MonsieurBiz\SyliusAdvancedPromotionPlugin\Controller\:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
+
+    MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Checker\Eligibility\:
+        resource: '../../Promotion/Checker/Eligibility'
+        tags: [ 'sylius.promotion_eligibility_checker' ]
+
+    # Custom processor to apply promotions after tax
+    MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Processor\AfterTaxPromotionProcessor:
+        arguments:
+            $preQualifiedPromotionsProvider: '@sylius.active_promotions_provider'
+            $promotionEligibilityChecker: '@sylius.promotion_eligibility_checker'
+    
+    # Add order processor to manage promotion after tax
+    monsieurbiz_advanced_promotion.order_processing.order_promotion_processor:
+        autoconfigure: false
+        class: Sylius\Component\Core\OrderProcessing\OrderPromotionProcessor
+        arguments:
+            $promotionProcessor: '@MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Processor\AfterTaxPromotionProcessor'
+        tags:
+            - { name: 'sylius.order_processor', priority: 5 } # Tax processor is 10

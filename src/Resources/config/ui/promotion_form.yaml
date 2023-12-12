@@ -1,0 +1,14 @@
+sylius_ui:
+    events:
+        sylius.admin.promotion.update.form:
+            blocks:
+                monsieurbiz_advanced_promotion_form:
+                    template: '@MonsieurBizSyliusAdvancedPromotionPlugin/Admin/Promotion/_advancedPromotionForm.html.twig'
+        sylius.admin.promotion.create.form:
+            blocks:
+                monsieurbiz_advanced_promotion_form:
+                    template: '@MonsieurBizSyliusAdvancedPromotionPlugin/Admin/Promotion/_advancedPromotionForm.html.twig'
+        monsieurbiz.advanced_promotion.admin.promotion.form:
+            blocks:
+                monsieurbiz_advanced_promotion_promotion_form:
+                    template: '@MonsieurBizSyliusAdvancedPromotionPlugin/Admin/Promotion/_form.html.twig'
