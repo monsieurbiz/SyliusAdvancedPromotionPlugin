@@ -44,7 +44,7 @@ final class AfterTaxPromotionProcessor implements PromotionProcessorInterface
          * @see \Sylius\Component\Promotion\Processor\PromotionProcessor::process()
          */
 
-        // Retrieve promotion after tax, it's a double security because the PromotionTaxContextEligibilityChecker si also called
+        // Retrieve promotion after tax, it's a double security because the PromotionTaxContextEligibilityChecker is also called
         $preQualifiedPromotions = $this->getPromotionsAfterTax($subject);
 
         foreach ($preQualifiedPromotions as $promotion) {
