@@ -22,7 +22,8 @@ use Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;
 final class PromotionProcessorDecorator implements PromotionProcessorInterface
 {
     public function __construct(
-        #[AutowireDecorated] private readonly PromotionProcessor $promotionProcessor,
+        #[AutowireDecorated]
+        private readonly PromotionProcessor $promotionProcessor,
         private readonly PromotionContextInterface $promotionContext,
     ) {
     }
