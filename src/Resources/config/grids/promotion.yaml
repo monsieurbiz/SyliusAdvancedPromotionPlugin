@@ -7,6 +7,11 @@ sylius_grid:
                     label: monsieurbiz_sylius_advanced_promotion.promotion.applied_after_tax
                     options:
                         template: "@SyliusUi/Grid/Field/yesNo.html.twig"
+                channels:
+                    type: twig
+                    label: sylius.ui.channels
+                    options:
+                        template: '@SyliusAdmin/Grid/Field/_channels.html.twig'
             filters:
                 afterTax:
                     type: boolean
