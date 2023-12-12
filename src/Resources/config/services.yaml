@@ -11,3 +11,8 @@ services:
     MonsieurBiz\SyliusAdvancedPromotionPlugin\Controller\:
         resource: '../../Controller'
         tags: [ 'controller.service_arguments' ]
+
+    MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Checker\Eligibility\:
+        resource: '../../Promotion/Checker/Eligibility'
+        tags: [ 'sylius.promotion_eligibility_checker' ]
+
