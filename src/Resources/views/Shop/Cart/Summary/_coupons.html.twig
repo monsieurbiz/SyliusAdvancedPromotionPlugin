@@ -1,0 +1,32 @@
+{% if form.promotionCoupon.vars.value|default(null) %}
+    {% include '@SyliusShop/Cart/Summary/_coupon.html.twig' %}
+{% else %}
+    <div id="sylius-coupon" {{ sylius_test_html_attribute('cart-promotion-coupon') }} style="display: flex; ">
+        <div class="ui coupon action input form">
+            {{ form_widget(form.promotionCoupons) }}
+            <br>
+            {{ form_errors(form.promotionCoupons) }}
+        </div>
+        <div>
+            <button type="submit" id="sylius-save" {{ sylius_test_html_attribute('apply-coupon-button') }} class="ui teal icon labeled button" form="{{ main_form }}">
+                <i class="ticket icon"></i> {{ 'monsieurbiz_sylius_advanced_promotion.coupons.apply_coupons'|trans }}
+            </button>
+        </div>
+    </div>
+
+    <style>
+        .monsieurbiz-coupons [data-form-collection="item"] {
+            display: flex;
+            flex-flow: nowrap;
+            align-items: center;
+        }
+
+        .monsieurbiz-coupons [data-form-collection="item"] label {
+            display: none !important;
+        }
+
+        .monsieurbiz-coupons [data-form-collection="item"] input[type="text"] {
+            margin-bottom: 1em;
+        }
+    </style>
+{% endif %}

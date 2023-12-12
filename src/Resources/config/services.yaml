@@ -30,3 +30,6 @@ services:
             $promotionProcessor: '@MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Processor\AfterTaxPromotionProcessor'
         tags:
             - { name: 'sylius.order_processor', priority: 5 } # Tax processor is 10
+
+    sylius.active_promotions_provider:
+        class: MonsieurBiz\SyliusAdvancedPromotionPlugin\Provider\ActivePromotionsByChannelProvider

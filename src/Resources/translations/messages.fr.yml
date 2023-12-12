@@ -2,3 +2,6 @@ monsieurbiz_sylius_advanced_promotion:
     promotion: 
         applied_after_tax: Appliqué après la taxe
         advanced_promotion_configuration: Configuration de la promotion avancée
+    coupons:
+        add_coupon: Ajouter un coupon
+        apply_coupons: Appliquer les coupons

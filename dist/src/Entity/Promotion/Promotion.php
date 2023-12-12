@@ -24,4 +24,10 @@ use Sylius\Component\Core\Model\Promotion as BasePromotion;
 class Promotion extends BasePromotion implements PromotionInterface
 {
     use AfterTaxAwareTrait;
+
+    /**
+     * @ORM\Column(name="after_tax", type="boolean", nullable=false, options={"default": false})
+     */
+    #[ORM\Column(name: 'after_tax', type: 'boolean', nullable: false, options: ['default' => false])]
+    private bool $afterTax = false;
 }

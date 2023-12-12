@@ -1,0 +1,8 @@
+App\Entity\Order\Order:
+    constraints:
+        - MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Validator\PromotionSubjectCoupons: 
+            groups: [ monsieurbiz_advanced_promotion_coupon ]
+    # properties:
+    #     promotionCoupons:
+    #         -   NotNull:
+    #                 groups: [ monsieurbiz_advanced_promotion_coupon ]
