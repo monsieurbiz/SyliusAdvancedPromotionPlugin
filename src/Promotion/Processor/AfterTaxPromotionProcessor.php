@@ -36,6 +36,7 @@ final class AfterTaxPromotionProcessor implements PromotionProcessorInterface
     public function process(PromotionSubjectInterface $subject): void
     {
         // Set the promotion context to after cart
+        $this->promotionContext->setOrderProcessor(true);
         $this->promotionContext->setAfterTax(true);
 
         /**

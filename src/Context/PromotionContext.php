@@ -13,15 +13,27 @@ namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Context;
 
 class PromotionContext implements PromotionContextInterface
 {
+    protected bool $orderProcessor = false;
+
     protected bool $afterTax = false;
 
     public function isAfterTax(): bool
     {
-        return $this->afterTax ?? false;
+        return $this->afterTax;
     }
 
     public function setAfterTax(bool $afterTax): void
     {
         $this->afterTax = $afterTax;
+    }
+
+    public function isOrderProcessor(): bool
+    {
+        return $this->orderProcessor;
+    }
+
+    public function setOrderProcessor(bool $orderProcessor): void
+    {
+        $this->orderProcessor = $orderProcessor;
     }
 }

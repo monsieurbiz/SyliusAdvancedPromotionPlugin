@@ -16,4 +16,8 @@ interface PromotionContextInterface
     public function isAfterTax(): bool;
 
     public function setAfterTax(bool $afterTax): void;
+
+    public function isOrderProcessor(): bool;
+
+    public function setOrderProcessor(bool $orderProcessor): void;
 }
