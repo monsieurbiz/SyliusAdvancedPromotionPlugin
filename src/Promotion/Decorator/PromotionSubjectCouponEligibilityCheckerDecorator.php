@@ -56,7 +56,7 @@ final class PromotionSubjectCouponEligibilityCheckerDecorator implements Promoti
         // Loop on order promotions with coupon to check if one is eligible
         $promotionCoupons = $promotionSubject->getPromotionCoupons();
         foreach ($promotionCoupons as $promotionCoupon) {
-            if ($promotion !== $promotionCoupon->getPromotion()) {
+            if (!$promotionCoupon || $promotion !== $promotionCoupon->getPromotion()) {
                 continue;
             }
 

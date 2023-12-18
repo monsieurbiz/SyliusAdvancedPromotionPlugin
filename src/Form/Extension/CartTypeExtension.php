@@ -13,12 +13,15 @@ namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Form\Extension;
 
 use Sylius\Bundle\OrderBundle\Form\Type\CartType;
 use Sylius\Bundle\PromotionBundle\Form\Type\PromotionCouponToCodeType;
+use Sylius\Component\Core\Model\PromotionCouponInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class CartTypeExtension extends AbstractTypeExtension
 {
@@ -34,16 +37,33 @@ final class CartTypeExtension extends AbstractTypeExtension
                     'attr' => [
                         'form' => 'sylius_cart',
                     ],
+                    'constraints' => [
+                        new Assert\Callback(
+                            [$this, 'validatePromotionEntry'],
+                            ['monsieurbiz_advanced_promotion_coupon']
+                        ),
+                    ],
                 ],
                 'required' => false,
                 'allow_add' => true,
                 'allow_delete' => true,
-                'delete_empty' => true,
                 'button_add_label' => 'monsieurbiz_sylius_advanced_promotion.coupons.add_coupon',
                 'attr' => [
                     'class' => 'monsieurbiz-coupons',
                 ],
             ])
+        ;
+    }
+
+    public function validatePromotionEntry(?PromotionCouponInterface $entry, ExecutionContextInterface $context): void
+    {
+        if (null !== $entry) {
+            return;
+        }
+
+        $context
+                ->buildViolation('sylius.promotion_coupon.is_invalid')
+                ->addViolation()
         ;
     }
 

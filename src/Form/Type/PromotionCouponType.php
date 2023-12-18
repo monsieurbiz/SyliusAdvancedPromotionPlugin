@@ -27,9 +27,6 @@ final class PromotionCouponType extends AbstractType
                 'label' => 'sylius.form.cart.coupon',
                 'required' => false,
                 'by_reference' => false,
-                'attr' => [
-                    'form' => 'sylius_cart',
-                ],
             ])
         ;
     }

@@ -26,6 +26,9 @@ final class OrderPromotionsUsageModifier implements OrderPromotionsUsageModifier
         // Same as Sylius but with multiple coupons
         // @see Sylius\Component\Core\Promotion\Modifier\OrderPromotionsUsageModifier
         foreach ($order->getPromotionCoupons() as $promotionCoupon) {
+            if (!$promotionCoupon) {
+                continue;
+            }
             $promotionCoupon->incrementUsed();
         }
     }
@@ -42,7 +45,7 @@ final class OrderPromotionsUsageModifier implements OrderPromotionsUsageModifier
         // Same as Sylius but with multiple coupons
         // @see Sylius\Component\Core\Promotion\Modifier\OrderPromotionsUsageModifier
         foreach ($order->getPromotionCoupons() as $promotionCoupon) {
-            if (OrderInterface::STATE_CANCELLED === $order->getState() && !$promotionCoupon->isReusableFromCancelledOrders()) {
+            if (!$promotionCoupon || OrderInterface::STATE_CANCELLED === $order->getState() && !$promotionCoupon->isReusableFromCancelledOrders()) {
                 continue;
             }
 

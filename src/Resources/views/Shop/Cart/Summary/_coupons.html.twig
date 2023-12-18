@@ -1,11 +1,11 @@
+{% form_theme form '@MonsieurBizSyliusAdvancedPromotionPlugin/Shop/Form/theme.html.twig' %}
+
 {% if form.promotionCoupon.vars.value|default(null) %}
     {% include '@SyliusShop/Cart/Summary/_coupon.html.twig' %}
 {% else %}
     <div id="sylius-coupon" {{ sylius_test_html_attribute('cart-promotion-coupon') }} style="display: flex; ">
         <div class="ui coupon action input form">
             {{ form_widget(form.promotionCoupons) }}
-            <br>
-            {{ form_errors(form.promotionCoupons) }}
         </div>
         <div>
             <button type="submit" id="sylius-save" {{ sylius_test_html_attribute('apply-coupon-button') }} class="ui teal icon labeled button" form="{{ main_form }}">
@@ -15,6 +15,15 @@
     </div>
 
     <style>
+        .monsieurbiz-coupons [data-form-collection="list"] .ui.pointing {
+            margin-top: -3px !important;
+            margin-bottom: 10px !important;
+        }
+        
+        .monsieurbiz-coupons [data-form-collection="list"] .ui.pointing::before {
+            display: none !important;
+        }
+
         .monsieurbiz-coupons [data-form-collection="item"] {
             display: flex;
             flex-flow: nowrap;

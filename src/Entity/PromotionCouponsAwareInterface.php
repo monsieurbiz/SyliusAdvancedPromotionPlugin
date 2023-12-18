@@ -16,7 +16,7 @@ use Sylius\Component\Core\Model\PromotionCouponInterface;
 
 interface PromotionCouponsAwareInterface
 {
-    /** @return Collection<array-key, PromotionCouponInterface> */
+    /** @return Collection<array-key, ?PromotionCouponInterface> */
     public function getPromotionCoupons(): Collection;
 
     public function hasPromotionCoupon(PromotionCouponInterface $promotionCoupon): bool;

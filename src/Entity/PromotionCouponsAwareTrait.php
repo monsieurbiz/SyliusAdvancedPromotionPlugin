@@ -25,7 +25,7 @@ trait PromotionCouponsAwareTrait
         $this->promotionCoupons = new ArrayCollection();
     }
 
-    /** @return Collection<array-key, PromotionCouponInterface> */
+    /** @return Collection<array-key, ?PromotionCouponInterface> */
     public function getPromotionCoupons(): Collection
     {
         return $this->promotionCoupons;
