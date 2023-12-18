@@ -11,12 +11,15 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Form\Extension;
 
+use MonsieurBiz\SyliusAdvancedPromotionPlugin\Entity\PromotionCouponsAwareInterface;
 use Sylius\Bundle\OrderBundle\Form\Type\CartType;
 use Sylius\Bundle\PromotionBundle\Form\Type\PromotionCouponToCodeType;
 use Sylius\Component\Core\Model\PromotionCouponInterface;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -52,6 +55,7 @@ final class CartTypeExtension extends AbstractTypeExtension
                     'class' => 'monsieurbiz-coupons',
                 ],
             ])
+            ->addEventListener(FormEvents::PRE_SUBMIT, [$this, 'removeEmptyCouponsOnPreSubmit'])
         ;
     }
 
@@ -65,6 +69,34 @@ final class CartTypeExtension extends AbstractTypeExtension
                 ->buildViolation('sylius.promotion_coupon.is_invalid')
                 ->addViolation()
         ;
+    }
+
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
+    public function removeEmptyCouponsOnPreSubmit(FormEvent $event): void
+    {
+        $formData = $event->getData();
+        if (!\is_array($formData)) {
+            return;
+        }
+
+        $promotionCoupons = $formData['promotionCoupons'] ?? [];
+        if (!empty($promotionCoupons)) {
+            return;
+        }
+
+        $order = $event->getForm()->getNormData();
+        if (!$order instanceof PromotionCouponsAwareInterface) {
+            return;
+        }
+
+        foreach ($order->getPromotionCoupons() as $promotionCoupon) {
+            if (!$promotionCoupon) {
+                continue;
+            }
+            $order->removePromotionCoupon($promotionCoupon);
+        }
     }
 
     /**
