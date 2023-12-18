@@ -13,11 +13,24 @@ namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
 use Sylius\Component\Core\Model\PromotionCouponInterface;
 
 trait PromotionCouponsAwareTrait
 {
-    /** @var Collection<array-key, PromotionCouponInterface> */
+    /**
+     * @ORM\ManyToMany(targetEntity=PromotionCouponInterface::class)
+     * @ORM\JoinTable(name="monsieurbiz_advanced_promotion_order_promotion_coupon",
+     *     joinColumns={@ORM\JoinColumn(name="order_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="promotion_coupon_id", referencedColumnName="id")}
+     * )
+     *
+     * @var Collection<array-key, PromotionCouponInterface>
+     */
+    #[ORM\ManyToMany(targetEntity: PromotionCouponInterface::class)]
+    #[ORM\JoinTable(name: 'monsieurbiz_advanced_promotion_order_promotion_coupon')]
+    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'promotion_coupon_id', referencedColumnName: 'id')]
     private $promotionCoupons;
 
     private function initializePromotionCoupons(): void

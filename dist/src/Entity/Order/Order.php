@@ -14,7 +14,6 @@ namespace App\Entity\Order;
 use Doctrine\ORM\Mapping as ORM;
 use MonsieurBiz\SyliusAdvancedPromotionPlugin\Entity\PromotionCouponsAwareTrait;
 use Sylius\Component\Core\Model\Order as BaseOrder;
-use Sylius\Component\Promotion\Model\PromotionCouponInterface;
 
 /**
  * @ORM\Entity
@@ -25,21 +24,6 @@ use Sylius\Component\Promotion\Model\PromotionCouponInterface;
 class Order extends BaseOrder implements OrderInterface
 {
     use PromotionCouponsAwareTrait;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=PromotionCouponInterface::class)
-     * @ORM\JoinTable(name="monsieurbiz_advanced_promotion_order_promotion_coupon",
-     *     joinColumns={@ORM\JoinColumn(name="order_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="promotion_coupon_id", referencedColumnName="id")}
-     * )
-     *
-     * @var Collection<array-key, PromotionCouponInterface>
-     */
-    #[ORM\ManyToMany(targetEntity: PromotionCouponInterface::class)]
-    #[ORM\JoinTable(name: 'monsieurbiz_advanced_promotion_order_promotion_coupon')]
-    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'promotion_coupon_id', referencedColumnName: 'id')]
-    private $promotionCoupons;
 
     public function __construct()
     {

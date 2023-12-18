@@ -11,8 +11,14 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 trait AfterTaxAwareTrait
 {
+    /**
+     * @ORM\Column(name="after_tax", type="boolean", nullable=false, options={"default": false})
+     */
+    #[ORM\Column(name: 'after_tax', type: 'boolean', nullable: false, options: ['default' => false])]
     private bool $afterTax = false;
 
     public function isAfterTax(): bool
