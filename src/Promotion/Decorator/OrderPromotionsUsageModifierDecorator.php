@@ -9,16 +9,27 @@
 
 declare(strict_types=1);
 
-namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Modifier;
+namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Decorator;
 
 use MonsieurBiz\SyliusAdvancedPromotionPlugin\Entity\PromotionCouponsAwareInterface;
 use Sylius\Component\Core\Model\OrderInterface;
+use Sylius\Component\Core\Promotion\Modifier\OrderPromotionsUsageModifier;
 use Sylius\Component\Core\Promotion\Modifier\OrderPromotionsUsageModifierInterface;
+use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;
 
-final class OrderPromotionsUsageModifier implements OrderPromotionsUsageModifierInterface
+#[AsDecorator('sylius.promotion_usage_modifier')]
+final class OrderPromotionsUsageModifierDecorator implements OrderPromotionsUsageModifierInterface
 {
+    public function __construct(
+        #[AutowireDecorated]
+        private readonly OrderPromotionsUsageModifier $promotionProcessor,
+    ) {
+    }
+
     public function increment(OrderInterface $order): void
     {
+        $this->promotionProcessor->increment($order);
         if (!$order instanceof PromotionCouponsAwareInterface) {
             return;
         }
@@ -38,6 +49,7 @@ final class OrderPromotionsUsageModifier implements OrderPromotionsUsageModifier
      */
     public function decrement(OrderInterface $order): void
     {
+        $this->promotionProcessor->decrement($order);
         if (!$order instanceof PromotionCouponsAwareInterface) {
             return;
         }
