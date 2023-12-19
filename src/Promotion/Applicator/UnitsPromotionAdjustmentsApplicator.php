@@ -24,7 +24,8 @@ use Webmozart\Assert\Assert;
 
 /**
  * Same behaviour as the default UnitsPromotionAdjustmentsApplicator
- * But we add the possibility to apply the promotion on a subset of items
+ * But we add the possibility to apply the promotion on a subset of items.
+ *
  * @see \Sylius\Component\Core\Promotion\Applicator\UnitsPromotionAdjustmentsApplicator
  */
 final class UnitsPromotionAdjustmentsApplicator implements UnitsPromotionAdjustmentsApplicatorInterface
