@@ -105,6 +105,12 @@ final class CartTypeExtension extends AbstractTypeExtension
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setNormalizer('validation_groups', fn (Options $options, array $validationGroups) => function (FormInterface $form) use ($validationGroups) {
+            // Keep Sylius validation groups, if someone disable the multiple coupon feature
+            // @see \Sylius\Bundle\CoreBundle\Form\Extension\CartTypeExtension
+            if ((bool) $form->get('promotionCoupon')->getNormData()) { // Validate the coupon if it was sent
+                $validationGroups[] = 'sylius_promotion_coupon';
+            }
+
             foreach ($form->get('promotionCoupons') as $promotionCoupon) {
                 if ((bool) $promotionCoupon->getNormData()) { // Validate the coupon if it was sent
                     $validationGroups[] = 'monsieurbiz_advanced_promotion_coupon';
