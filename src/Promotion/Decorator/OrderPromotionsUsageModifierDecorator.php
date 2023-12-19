@@ -13,7 +13,6 @@ namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Decorator;
 
 use MonsieurBiz\SyliusAdvancedPromotionPlugin\Entity\PromotionCouponsAwareInterface;
 use Sylius\Component\Core\Model\OrderInterface;
-use Sylius\Component\Core\Promotion\Modifier\OrderPromotionsUsageModifier;
 use Sylius\Component\Core\Promotion\Modifier\OrderPromotionsUsageModifierInterface;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
 use Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;
@@ -23,7 +22,7 @@ final class OrderPromotionsUsageModifierDecorator implements OrderPromotionsUsag
 {
     public function __construct(
         #[AutowireDecorated]
-        private readonly OrderPromotionsUsageModifier $promotionProcessor,
+        private readonly OrderPromotionsUsageModifierInterface $promotionProcessor,
     ) {
     }
 

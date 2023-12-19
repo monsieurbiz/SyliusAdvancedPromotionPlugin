@@ -13,7 +13,6 @@ namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Decorator;
 
 use MonsieurBiz\SyliusAdvancedPromotionPlugin\Context\PromotionContextInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
-use Sylius\Component\Promotion\Processor\PromotionProcessor;
 use Sylius\Component\Promotion\Processor\PromotionProcessorInterface;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
 use Symfony\Component\DependencyInjection\Attribute\AutowireDecorated;
@@ -23,7 +22,7 @@ final class PromotionProcessorDecorator implements PromotionProcessorInterface
 {
     public function __construct(
         #[AutowireDecorated]
-        private readonly PromotionProcessor $promotionProcessor,
+        private readonly PromotionProcessorInterface $promotionProcessor,
         private readonly PromotionContextInterface $promotionContext,
     ) {
     }

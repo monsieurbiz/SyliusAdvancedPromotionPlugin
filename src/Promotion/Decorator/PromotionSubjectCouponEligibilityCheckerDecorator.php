@@ -14,7 +14,6 @@ namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Promotion\Decorator;
 use MonsieurBiz\SyliusAdvancedPromotionPlugin\Entity\PromotionCouponsAwareInterface;
 use Sylius\Component\Promotion\Checker\Eligibility\PromotionCouponEligibilityCheckerInterface;
 use Sylius\Component\Promotion\Checker\Eligibility\PromotionEligibilityCheckerInterface;
-use Sylius\Component\Promotion\Checker\Eligibility\PromotionSubjectCouponEligibilityChecker;
 use Sylius\Component\Promotion\Model\PromotionInterface;
 use Sylius\Component\Promotion\Model\PromotionSubjectInterface;
 use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
@@ -29,7 +28,7 @@ final class PromotionSubjectCouponEligibilityCheckerDecorator implements Promoti
 {
     public function __construct(
         #[AutowireDecorated]
-        private readonly PromotionSubjectCouponEligibilityChecker $promotionSubjectCouponEligibilityChecker,
+        private readonly PromotionEligibilityCheckerInterface $promotionSubjectCouponEligibilityChecker,
         #[Autowire('@sylius.promotion_coupon_eligibility_checker')]
         private readonly PromotionCouponEligibilityCheckerInterface $promotionCouponEligibilityChecker
     ) {
