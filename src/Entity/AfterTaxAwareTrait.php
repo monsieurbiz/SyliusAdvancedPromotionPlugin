@@ -19,7 +19,7 @@ trait AfterTaxAwareTrait
      * @ORM\Column(name="after_tax", type="boolean", nullable=false, options={"default": false})
      */
     #[ORM\Column(name: 'after_tax', type: 'boolean', nullable: false, options: ['default' => false])]
-    protected bool $afterTax = false;
+    private bool $afterTax = false;
 
     public function isAfterTax(): bool
     {

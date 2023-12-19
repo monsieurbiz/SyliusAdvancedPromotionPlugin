@@ -1,0 +1,10 @@
+
+sylius_ui:
+    events:
+        sylius.shop.cart.coupon:
+            blocks:
+                content:
+                    enabled: false
+                monsieurbiz_advanced_promotion_coupons:
+                    template: "@MonsieurBizSyliusAdvancedPromotionPlugin/Shop/Cart/Summary/_coupons.html.twig"
+                    priority: 10
