@@ -46,13 +46,7 @@ trait PromotionCouponsAwareTrait
 
     public function hasPromotionCoupon(PromotionCouponInterface $promotionCoupon): bool
     {
-        foreach ($this->promotionCoupons as $currentPromotionCoupon) {
-            if ($currentPromotionCoupon === $promotionCoupon) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->promotionCoupons->contains($promotionCoupon);
     }
 
     public function addPromotionCoupon(PromotionCouponInterface $promotionCoupon): void

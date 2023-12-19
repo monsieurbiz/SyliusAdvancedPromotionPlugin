@@ -66,8 +66,8 @@ final class CartTypeExtension extends AbstractTypeExtension
         }
 
         $context
-                ->buildViolation('sylius.promotion_coupon.is_invalid')
-                ->addViolation()
+            ->buildViolation('sylius.promotion_coupon.is_invalid')
+            ->addViolation()
         ;
     }
 
