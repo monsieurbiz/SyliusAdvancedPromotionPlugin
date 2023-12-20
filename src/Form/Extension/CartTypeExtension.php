@@ -14,7 +14,11 @@ namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Form\Extension;
 use MonsieurBiz\SyliusAdvancedPromotionPlugin\Entity\PromotionCouponsAwareInterface;
 use Sylius\Bundle\OrderBundle\Form\Type\CartType;
 use Sylius\Bundle\PromotionBundle\Form\Type\PromotionCouponToCodeType;
+use Sylius\Component\Core\Model\OrderInterface;
 use Sylius\Component\Core\Model\PromotionCouponInterface;
+use Sylius\Component\Order\Context\CartContextInterface;
+use Sylius\Component\Promotion\Checker\Eligibility\PromotionEligibilityCheckerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -28,6 +32,13 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 final class CartTypeExtension extends AbstractTypeExtension
 {
+    public function __construct(
+        #[Autowire('@sylius.promotion_eligibility_checker')]
+        private PromotionEligibilityCheckerInterface $promotionEligibilityChecker,
+        private CartContextInterface $cartContext
+    ) {
+    }
+
     /**
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
@@ -61,14 +72,24 @@ final class CartTypeExtension extends AbstractTypeExtension
 
     public function validatePromotionEntry(?PromotionCouponInterface $entry, ExecutionContextInterface $context): void
     {
-        if (null !== $entry) {
+        if (null === $entry || null === ($promotion = $entry->getPromotion())) {
+            $context
+                ->buildViolation('sylius.promotion_coupon.is_invalid')
+                ->addViolation()
+            ;
+
             return;
         }
 
-        $context
-            ->buildViolation('sylius.promotion_coupon.is_invalid')
-            ->addViolation()
-        ;
+        // Check if the promotion rule is eligible
+        /** @var OrderInterface $order */
+        $order = $this->cartContext->getCart();
+        if (!$this->promotionEligibilityChecker->isEligible($order, $promotion)) {
+            $context
+                ->buildViolation('sylius.promotion_coupon.is_invalid')
+                ->addViolation()
+            ;
+        }
     }
 
     /**
