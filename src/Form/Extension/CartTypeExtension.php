@@ -81,7 +81,7 @@ final class CartTypeExtension extends AbstractTypeExtension
             return;
         }
 
-        $promotionCoupons = $formData['promotionCoupons'] ?? [];
+        $promotionCoupons = array_filter($formData['promotionCoupons'] ?? []);
         if (!empty($promotionCoupons)) {
             return;
         }
