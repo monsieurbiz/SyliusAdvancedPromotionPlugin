@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\Fixture;
 
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use MonsieurBiz\SyliusAdvancedPromotionPlugin\Entity\AfterTaxAwareInterface;
 use Sylius\Bundle\FixturesBundle\Fixture\AbstractFixture;
 use Sylius\Bundle\FixturesBundle\Fixture\FixtureInterface;
@@ -31,14 +32,25 @@ final class AdvancedPromotionFixture extends AbstractFixture implements FixtureI
         return 'monsieurbiz_advanced_promotion';
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     */
     public function load(array $options): void
     {
-        foreach ($options['promotion_advanced_configuration'] as $data) {
+        $config = $options['promotion_advanced_configuration'] ?? [];
+        if (!\is_array($config)) {
+            throw new InvalidArgumentException('The "promotion_advanced_configuration" option must be an array.');
+        }
+        /** @var array $data */
+        foreach ($config as $data) {
+            if (!isset($data['code'])) {
+                continue;
+            }
             $promotion = $this->promotionRepository->findOneBy(['code' => $data['code']]);
             if (null === $promotion || !$promotion instanceof AfterTaxAwareInterface) {
                 continue;
             }
-            $promotion->setAfterTax($data['after_tax']);
+            $promotion->setAfterTax($data['after_tax'] ?? false);
             $this->entityManager->persist($promotion);
         }
 
