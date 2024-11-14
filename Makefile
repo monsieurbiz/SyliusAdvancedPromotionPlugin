@@ -7,7 +7,7 @@ COMPOSER=symfony composer
 CONSOLE=${SYMFONY} console
 export COMPOSE_PROJECT_NAME=advanced-promotion
 PLUGIN_NAME=sylius-${COMPOSE_PROJECT_NAME}-plugin
-COMPOSE=docker-compose
+COMPOSE=docker compose
 YARN=yarn
 DOCTRINE_MIGRATIONS_NAMESPACE=MonsieurBiz\SyliusAdvancedPromotionPlugin\Migrations
 
