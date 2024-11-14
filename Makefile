@@ -85,6 +85,8 @@ setup_application:
 ${APP_DIR}/docker-compose.yaml:
 	rm -f ${APP_DIR}/docker-compose.yml
 	rm -f ${APP_DIR}/docker-compose.yaml
+	rm -f ${APP_DIR}/compose.yml # Remove Sylius file about Docker
+	rm -f ${APP_DIR}/compose.override.dist.yml # Remove Sylius file about Docker
 	ln -s ../../docker-compose.yaml.dist ${APP_DIR}/docker-compose.yaml
 .PHONY: ${APP_DIR}/docker-compose.yaml
 
