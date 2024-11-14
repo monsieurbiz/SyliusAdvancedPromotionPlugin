@@ -21,16 +21,16 @@ trait PromotionCouponsAwareTrait
     /**
      * @ORM\ManyToMany(targetEntity=PromotionCouponInterface::class)
      * @ORM\JoinTable(name="monsieurbiz_advanced_promotion_order_promotion_coupon",
-     *     joinColumns={@ORM\JoinColumn(name="order_id", referencedColumnName="id")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="promotion_coupon_id", referencedColumnName="id")}
+     *     joinColumns={@ORM\JoinColumn(name="order_id", referencedColumnName="id", onDelete="CASCADE")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="promotion_coupon_id", referencedColumnName="id", onDelete="CASCADE")}
      * )
      *
      * @var Collection<array-key, PromotionCouponInterface>
      */
     #[ORM\ManyToMany(targetEntity: PromotionCouponInterface::class)]
     #[ORM\JoinTable(name: 'monsieurbiz_advanced_promotion_order_promotion_coupon')]
-    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id')]
-    #[ORM\InverseJoinColumn(name: 'promotion_coupon_id', referencedColumnName: 'id')]
+    #[ORM\JoinColumn(name: 'order_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'promotion_coupon_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private $promotionCoupons;
 
     private function initializePromotionCoupons(): void

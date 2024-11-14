@@ -7,7 +7,7 @@ COMPOSER=symfony composer
 CONSOLE=${SYMFONY} console
 export COMPOSE_PROJECT_NAME=advanced-promotion
 PLUGIN_NAME=sylius-${COMPOSE_PROJECT_NAME}-plugin
-COMPOSE=docker-compose
+COMPOSE=docker compose
 YARN=yarn
 DOCTRINE_MIGRATIONS_NAMESPACE=MonsieurBiz\SyliusAdvancedPromotionPlugin\Migrations
 
@@ -85,6 +85,8 @@ setup_application:
 ${APP_DIR}/docker-compose.yaml:
 	rm -f ${APP_DIR}/docker-compose.yml
 	rm -f ${APP_DIR}/docker-compose.yaml
+	rm -f ${APP_DIR}/compose.yml # Remove Sylius file about Docker
+	rm -f ${APP_DIR}/compose.override.dist.yml # Remove Sylius file about Docker
 	ln -s ../../docker-compose.yaml.dist ${APP_DIR}/docker-compose.yaml
 .PHONY: ${APP_DIR}/docker-compose.yaml
 
