@@ -1,82 +1,79 @@
 name: Tests
 
 on:
-    push:
-        branches: [ master ]
-    pull_request:
+  push:
+    branches: [ master ]
+  pull_request:
 
 jobs:
-    
-    php:
-        
-        name: Quality tests (PHP ${{ matrix.php }})
-        
-        runs-on: ubuntu-latest
-        
-        strategy:
-            fail-fast: false
-            matrix:
-                php: ['8.1', '8.2']
-        
-        env:
-            SYMFONY_ARGS: --no-tls
-            COMPOSER_ARGS: --prefer-dist
-            DOCKER_INTERACTIVE_ARGS: -t
-        
-        steps:
-            - uses: actions/checkout@v3
 
-            - uses: actions/setup-node@v3
-              with:
-                  node-version: '16'
+  php:
 
-            - name: Setup PHP
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php }}
-                  ini-values: date.timezone=UTC
+    runs-on: ubuntu-latest
 
-            - name: Set project php-version
-              run: |
-                  echo ${{ matrix.php }} > .php-version
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2', '8.3']
 
-            - name: Install symfony CLI
-              run: |
-                  curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
-                  sudo apt install symfony-cli
+    env:
+      SYMFONY_ARGS: --no-tls
+      COMPOSER_ARGS: --prefer-dist
+      DOCKER_INTERACTIVE_ARGS: -t
 
-            - name: Determine composer cache directory
-              id: composer-cache-directory
-              run: echo "directory=$(composer config cache-dir)" >> $GITHUB_OUTPUT
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: gd, intl, json
+          ini-values: date.timezone=UTC
+          tools: symfony-cli
 
-            - name: Cache dependencies installed with composer
-              uses: actions/cache@v3
-              id: cache-composer
-              with:
-                  path: ${{ steps.composer-cache-directory.outputs.directory }}
-                  key: composer2-php:${{ matrix.php }}-${{ hashFiles('**/composer.json') }}
-                  restore-keys: composer2-php:${{ matrix.php }}-
+      - name: Set project php-version
+        run: |
+          echo "${{ matrix.php }}" > .php-version
 
-            - name: Ensure that composer cache directory exists
-              run: mkdir -p ${{ steps.composer-cache-directory.outputs.directory }}
+      - name: Determine composer cache directory
+        id: composer-cache-directory
+        run: echo "directory=$(composer config cache-dir)" >> $GITHUB_OUTPUT
 
-            - name: Composer Github Auth
-              run: composer config -g github-oauth.github.com ${{ github.token }}
+      - name: Cache dependencies installed with composer
+        uses: actions/cache@v3
+        id: cache-composer
+        with:
+          path: ${{ steps.composer-cache-directory.outputs.directory }}
+          key: composer2-php:${{ matrix.php }}-${{ github.sha }}
+          restore-keys: composer2-php:${{ matrix.php }}-
 
-            - run: make install
+      - name: Ensure that composer cache directory exists
+        run: mkdir -p ${{ steps.composer-cache-directory.outputs.directory }}
 
-            - run: make test.composer
+      - name: Composer Github Auth
+        run: composer config -g github-oauth.github.com ${{ github.token }}
 
-            - run: make test.phpcs
+      - run: make install
 
-            - run: make test.phpstan
+      - run: make test.composer
 
-            - run: make test.phpmd
+      - run: make test.phpcs
 
-            - run: make test.yaml
+      - run: make test.phpunit
 
-            - run: make test.twig
+      - run: make test.phpstan
 
-            - run: make test.schema
+      - run: make test.phpmd
 
-            - run: make test.container
+      - run: make test.phpspec
+
+      - run: make test.yaml
+
+      - run: make test.twig
+
+      - run: make test.schema
+
+      - run: make test.container

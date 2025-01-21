@@ -14,6 +14,7 @@ namespace App\Entity\Promotion;
 use Doctrine\ORM\Mapping as ORM;
 use MonsieurBiz\SyliusAdvancedPromotionPlugin\Entity\AfterTaxAwareTrait;
 use Sylius\Component\Core\Model\Promotion as BasePromotion;
+use Sylius\Component\Promotion\Model\PromotionTranslationInterface;
 
 /**
  * @ORM\Entity
@@ -24,4 +25,9 @@ use Sylius\Component\Core\Model\Promotion as BasePromotion;
 class Promotion extends BasePromotion implements PromotionInterface
 {
     use AfterTaxAwareTrait;
+
+    protected function createTranslation(): PromotionTranslationInterface
+    {
+        return new PromotionTranslation();
+    }
 }
