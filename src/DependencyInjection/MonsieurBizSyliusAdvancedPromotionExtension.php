@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace MonsieurBiz\SyliusAdvancedPromotionPlugin\DependencyInjection;
 
-use Sylius\Bundle\CoreBundle\DependencyInjection\PrependDoctrineMigrationsTrait;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
@@ -23,44 +22,34 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
  */
 final class MonsieurBizSyliusAdvancedPromotionExtension extends Extension implements PrependExtensionInterface
 {
-    use PrependDoctrineMigrationsTrait;
-
     /**
      * @inheritdoc
      */
     public function load(array $config, ContainerBuilder $container): void
     {
+        $configuration = $this->getConfiguration([], $container);
+        if (null !== $configuration) {
+            $this->processConfiguration($configuration, $config);
+        }
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yaml');
+    }
+
+    public function getAlias(): string
+    {
+        return str_replace('monsieur_biz', 'monsieurbiz', parent::getAlias());
     }
 
     /**
      * @inheritdoc
      */
-    public function getAlias(): string
-    {
-        return 'monsieurbiz_advanced_promotion';
-    }
-
     public function prepend(ContainerBuilder $container): void
     {
-        $this->prependDoctrineMigrations($container);
-    }
-
-    protected function getMigrationsNamespace(): string
-    {
-        return 'MonsieurBiz\SyliusAdvancedPromotionPlugin\Migrations';
-    }
-
-    protected function getMigrationsDirectory(): string
-    {
-        return '@MonsieurBizSyliusAdvancedPromotionPlugin/Migrations';
-    }
-
-    protected function getNamespacesOfMigrationsExecutedBefore(): array
-    {
-        return [
-            'Sylius\Bundle\CoreBundle\Migrations',
-        ];
+        $doctrineConfig = $container->getExtensionConfig('doctrine_migrations');
+        $container->prependExtensionConfig('doctrine_migrations', [
+            'migrations_paths' => array_merge(array_pop($doctrineConfig)['migrations_paths'] ?? [], [
+                'MonsieurBiz\SyliusAdvancedPromotionPlugin\Migrations' => '@MonsieurBizSyliusAdvancedPromotionPlugin/Migrations',
+            ]),
+        ]);
     }
 }
